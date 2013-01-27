@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 ### required - do no delete
 
-@auth.requires_login()
 def user():
     return dict(form=auth())
 
@@ -25,13 +24,19 @@ def show():
     db.answers.question_id.default = question.id
     db.answers.user_id.default = auth.user_id
     form = SQLFORM(db.answers)
+    next_question_id = question.id+1
     if form.process().accepted:
         response.flash = 'Your answer has been stored'
+        redirect(URL('show',args=next_question_id))
     answer = db(db.answers.question_id==question.id).select()
     answer.user_id = auth.user_id
     answer.answer = answer
     return dict(question=question, answer=answer, form=form)
 
-def manage():
+def managequestions():
     grid = SQLFORM.smartgrid(db.questions, linked_tables=['answers'])
+    return dict(grid=grid)
+
+def manageanswers():
+    grid = SQLFORM.smartgrid(db.answers, linked_tables=['questions'])
     return dict(grid=grid)

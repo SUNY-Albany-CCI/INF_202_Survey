@@ -48,8 +48,8 @@ auth.define_tables(username=True, signature=False)
 
 ## configure email
 mail = auth.settings.mailer
-mail.settings.server = 'logging' or 'smtp.gmail.com:587'
-mail.settings.sender = 'you@gmail.com'
+mail.settings.server = 'logging' or 'smtp.localhost:25'
+mail.settings.sender = 'luis.ibanez@kitware.com'
 mail.settings.login = 'username:password'
 
 ## configure auth policy
@@ -93,7 +93,7 @@ db.define_table('questions',
 db.define_table('answers',
     Field('user_id'),
     Field('question_id'),
-    Field('answer','text'))
+    Field('answer', requires=IS_IN_SET(['Yes', 'No', 'Maybe'])))
     
 db.questions.question.requires = IS_NOT_IN_DB(db, db.questions.question)
 
