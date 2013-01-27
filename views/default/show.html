@@ -1,0 +1,10 @@
+{{extend 'layout.html'}}
+<h1>{{=question.question}}</h1>
+{{if len(answer):}}
+<br>
+<p>You previoiusly answered <i>{{=answer.answer}}</i></p>
+<br>
+{{else:}}
+{{pass}}
+{{=form}}
+<h4>Please answer with: yes, no, maybe</h4>
