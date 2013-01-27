@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+
+<h1>Welcome to the INF 202 Survey</h1>
+<br>
+<ul>
+    {{for question in questions:}}
+    {{=LI(A(question.question))}}
+    {{pass}}
+</ul>
