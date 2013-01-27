@@ -93,18 +93,17 @@ db.define_table('questions',
 db.define_table('answers',
     Field('user_id'),
     Field('question_id'),
-    Field('answer', requires=IS_IN_SET(['Yes', 'No', 'Maybe'])))
-    
+    Field('answer'))    
+            
 db.questions.question.requires = IS_NOT_IN_DB(db, db.questions.question)
 
-
 db.answers.question_id.requires = IS_IN_DB(db, db.questions.id)
-# db.answers.user_id.requires = IS_IN_DB(db, db.username.id)
+db.answers.user_id.requires = IS_IN_DB(db, db.auth_user.id)
 
-db.answers.answer.requires = IS_NOT_EMPTY()
+db.answers.answer.requires = IS_IN_SET(['Yes', 'No', 'Maybe'])
 
 db.answers.question_id.writable = False
-db.answers.question_id.readable = False
+db.answers.question_id.readable = True
 
 db.answers.user_id.writable = False
-db.answers.user_id.readable = False
+db.answers.user_id.readable = True

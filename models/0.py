@@ -16,4 +16,4 @@ settings.email_sender = 'you@example.com'
 settings.email_login = ''
 settings.login_method = 'local'
 settings.login_config = ''
-settings.plugins = ['jqmobile', 'translate']
+settings.plugins = ['jqmobile', 'translate', 'dropdown']

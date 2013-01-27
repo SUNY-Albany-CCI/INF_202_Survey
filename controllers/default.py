@@ -37,6 +37,11 @@ def managequestions():
     grid = SQLFORM.smartgrid(db.questions, linked_tables=['answers'])
     return dict(grid=grid)
 
-def manageanswers():
+def manage():
     grid = SQLFORM.smartgrid(db.answers, linked_tables=['questions'])
     return dict(grid=grid)
+
+@auth.requires_login()
+def clearanswers():
+    db(db.answers.id>0).delete()
+    return dict()
