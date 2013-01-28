@@ -113,6 +113,3 @@ db.answers.question_id.readable = True
 
 db.answers.user_id.writable = False
 db.answers.user_id.readable = True
-
-db.answers.tbl_group_id.writable = False
-db.answers.tbl_group_id.readable = True

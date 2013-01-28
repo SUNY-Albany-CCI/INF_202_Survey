@@ -1,0 +1,6 @@
+{{extend 'layout.html'}}
+<h1>{{=question.question}}</h1>
+{{=form.custom.begin}}
+{{=form.custom.widget.answer}}
+{{=form.custom.submit}}
+{{=form.custom.begin}}

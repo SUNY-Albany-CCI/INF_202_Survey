@@ -33,12 +33,10 @@ def show():
     answer = db(db.answers.question_id==question.id).select()
     return dict(question=question, answer=answer, form=form)
 
-@auth.requires_login()
 def managequestions():
     grid = SQLFORM.smartgrid(db.questions, linked_tables=['answers'])
     return dict(grid=grid)
 
-@auth.requires_login()
 def manage():
     grid = SQLFORM.smartgrid(db.answers, linked_tables=['questions'])
     return dict(grid=grid)
