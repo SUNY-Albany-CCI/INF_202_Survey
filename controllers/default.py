@@ -13,6 +13,9 @@ def call():
 ### end requires
 
 def index():
+    return dict()
+
+def startsurvey():
     questions = db().select(db.questions.ALL)
     return dict(questions=questions)
 
