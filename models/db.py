@@ -47,7 +47,7 @@ db.define_table('tbl_groups',
     Field('name', unique=True))
 
 auth.settings.extra_fields['auth_user']= [
-    Field('tbl_group_id', requires = IS_IN_DB(db, db.tbl_groups.id))]
+    Field('tbl_group_id', 'reference tbl_groups', requires = IS_IN_DB(db, db.tbl_groups.id))]
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
@@ -96,9 +96,9 @@ db.define_table('questions',
     Field('question', unique=True))
     
 db.define_table('answers',
-    Field('user_id'),
-    Field('tbl_group_id'),
-    Field('question_id'),
+    Field('user_id','reference auth_user'),
+    Field('tbl_group_id','reference tbl_groups'),
+    Field('question_id','reference questions'),
     Field('answer'))
             
 db.questions.question.requires = IS_NOT_IN_DB(db, db.questions.question)
