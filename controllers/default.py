@@ -15,6 +15,7 @@ def call():
 def index():
     return dict()
 
+@auth.requires_login()
 def startsurvey():
     questions = db().select(db.questions.ALL)
     return dict(questions=questions)
@@ -22,6 +23,7 @@ def startsurvey():
 def error():
     return dict()
    
+@auth.requires_login()   
 def show():
     currentuser = db(db.auth_user.id==auth.user_id).select()[0]
     question = db.questions(request.args(0,cast=int)) or redirect(URL('index'))
@@ -35,6 +37,14 @@ def show():
         redirect(URL('show',args=next_question_id))
     answer = db(db.answers.question_id==question.id).select()
     return dict(question=question, answer=answer, form=form)
+
+def correlate2questions():
+    form = FORM('Question 1:', INPUT(_qid1='question1', requires=IS_IN_DB(db, 'questions.id')), 
+                'Question 2:', INPUT(_qid2='question2', requires=IS_IN_DB(db, 'questions.id')),
+                INPUT(_type='submit'))
+    if form.process().accepted:
+        response.flash = 'Two questions have been selected'
+    return dict(form=form)
 
 @auth.requires_login()
 def managequestions():
