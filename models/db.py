@@ -94,14 +94,15 @@ mail.settings.login = settings.email_login
 
 db.define_table('questions',
     Field('question', unique=True))
-    
+
+db.questions.question.requires = IS_NOT_IN_DB(db, db.questions.question)
+
+
 db.define_table('answers',
     Field('user_id','reference auth_user'),
     Field('tbl_group_id','reference tbl_groups'),
     Field('question_id','reference questions'),
     Field('answer'))
-            
-db.questions.question.requires = IS_NOT_IN_DB(db, db.questions.question)
 
 db.answers.question_id.requires = IS_IN_DB(db, db.questions.id)
 db.answers.user_id.requires = IS_IN_DB(db, db.auth_user.id)
@@ -116,3 +117,16 @@ db.answers.user_id.readable = True
 
 db.answers.tbl_group_id.writable = False
 db.answers.tbl_group_id.readable = True
+
+
+db.define_table('correlations',
+    Field('question_id1','reference questions'),
+    Field('question_id2','reference questions'),
+    Field('tbl_group_id','reference tbl_groups'),
+    Field('mutual_information','double'))
+
+
+db.correlations.question_id1.requires = IS_IN_DB(db, db.questions.question)
+db.correlations.question_id2.requires = IS_IN_DB(db, db.questions.question)
+db.correlations.tbl_group_id.requires = IS_IN_DB(db, db.tbl_groups.id)
+

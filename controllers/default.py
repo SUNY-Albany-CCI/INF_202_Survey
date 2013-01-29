@@ -39,11 +39,9 @@ def show():
     return dict(question=question, answer=answer, form=form)
 
 def correlate2questions():
-    form = FORM('Question 1:', INPUT(_qid1='question1', requires=IS_IN_DB(db, 'questions.id')), 
-                'Question 2:', INPUT(_qid2='question2', requires=IS_IN_DB(db, 'questions.id')),
-                INPUT(_type='submit'))
+    form = SQLFORM(db.correlations,fields=['question_id1','question_id2','tbl_group_id'])
     if form.process().accepted:
-        response.flash = 'Two questions have been selected'
+        response.flash = 'Your correlation has been stored'
     return dict(form=form)
 
 @auth.requires_login()
