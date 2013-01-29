@@ -126,7 +126,7 @@ db.define_table('correlations',
     Field('mutual_information','double'))
 
 
-db.correlations.question_id1.requires = IS_IN_DB(db, db.questions.question)
-db.correlations.question_id2.requires = IS_IN_DB(db, db.questions.question)
-db.correlations.tbl_group_id.requires = IS_IN_DB(db, db.tbl_groups.id)
+db.correlations.question_id1.requires = IS_IN_DB(db, db.questions.id,'%(question)s')
+db.correlations.question_id2.requires = IS_IN_DB(db, db.questions.id,'%(question)s')
+db.correlations.tbl_group_id.requires = IS_IN_DB(db, db.tbl_groups.id,'%(name)s')
 
