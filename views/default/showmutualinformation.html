@@ -1,10 +1,10 @@
 {{extend 'layout.html'}}
 <h1>Mutual Information</h1>
 <br>
-<h3>Person Id       Question Id    Answer</h3>
+<h3>Person Id       Group Id    Question Id    Answer</h3>
 <ul>
    
-    {{for answer in answers:}}
-    {{=LI(answer.user_id,".....",answer.question_id,".....",answer.answer)}}
+    {{for answer in myanswers:}}
+    {{=LI(answer.user_id,"_________",answer.tbl_group_id,"_________",answer.question_id,"________",answer.answer)}}
     {{pass}}
 </ul>

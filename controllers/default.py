@@ -41,17 +41,17 @@ def show():
 def correlate2questions():
     form = SQLFORM(db.correlations,fields=['question_id1','question_id2','tbl_group_id'])
     if form.process().accepted:
-        redirect(URL('showmutualinformation'))
-    myquery = (db.answers.tbl_group_id==db.correlations.tbl_group_id) & ((db.answers.question_id==db.correlations.question_id1) | (db.answers.question_id==db.correlations.question_id2))
-    myset = db(myquery)
-    myanswers = myset.select(db.answers.ALL,orderby=db.answers.user_id)
-    for answerrow in myanswers:
-      print answerrow
-    return dict(answers=myanswers,form=form)
+      myquery = (db.answers.tbl_group_id==db.correlations.tbl_group_id) & ((db.answers.question_id==db.correlations.question_id1) | (db.answers.question_id==db.correlations.question_id2))
+      myset = db(myquery)
+      myanswers = myset.select(db.answers.ALL,orderby=db.answers.user_id)
+      for answerrow in myanswers:
+        print 'answer= ', answerrow
+      redirect(URL('showmutualinformation'))
+    return dict(form=form)
 
 def showmutualinformation():
-    answers = db().select(db.answers.ALL)
-    return dict(answers=answers)
+    myanswers = db().select(db.answers.ALL,orderby=[db.answers.tbl_group_id,db.answers.user_id,db.answers.question_id])
+    return dict(myanswers=myanswers)
 
 @auth.requires_login()
 def managequestions():
