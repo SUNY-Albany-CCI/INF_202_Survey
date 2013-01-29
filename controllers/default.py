@@ -41,7 +41,14 @@ def show():
 def correlate2questions():
     form = SQLFORM(db.correlations,fields=['question_id1','question_id2','tbl_group_id'])
     if form.process().accepted:
+        redirect(URL('showmutualinformation'))
         response.flash = 'Your correlation has been stored'
+    answers1 = db(db.answers.question_id==db.correlations.question_id1).select()
+    answers2 = db(db.answers.question_id==db.correlations.question_id2).select()
+    return dict(answers1=answers1,answers2=answers2,form=form)
+
+def showmutualinformation():
+    form = SQLFORM(db.answers)
     return dict(form=form)
 
 @auth.requires_login()
