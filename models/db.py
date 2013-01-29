@@ -47,7 +47,7 @@ db.define_table('tbl_groups',
     Field('name', unique=True))
 
 auth.settings.extra_fields['auth_user']= [
-    Field('tbl_group_id', 'reference tbl_groups', requires = IS_IN_DB(db, db.tbl_groups.id))]
+    Field('tbl_group_id', 'reference tbl_groups', requires = IS_IN_DB(db, db.tbl_groups.id,'%(name)s'))]
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
