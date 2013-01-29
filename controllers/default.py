@@ -9,7 +9,7 @@ def download():
 
 def call():
     return service()
-    
+
 ### end requires
 
 def index():
@@ -22,8 +22,8 @@ def startsurvey():
 
 def error():
     return dict()
-   
-@auth.requires_login()   
+
+@auth.requires_login()
 def show():
     currentuser = db(db.auth_user.id==auth.user_id).select()[0]
     question = db.questions(request.args(0,cast=int)) or redirect(URL('index'))
@@ -42,14 +42,16 @@ def correlate2questions():
     form = SQLFORM(db.correlations,fields=['question_id1','question_id2','tbl_group_id'])
     if form.process().accepted:
         redirect(URL('showmutualinformation'))
-        response.flash = 'Your correlation has been stored'
-    answers1 = db(db.answers.question_id==db.correlations.question_id1).select()
-    answers2 = db(db.answers.question_id==db.correlations.question_id2).select()
-    return dict(answers1=answers1,answers2=answers2,form=form)
+    myquery = (db.answers.tbl_group_id==db.correlations.tbl_group_id) & ((db.answers.question_id==db.correlations.question_id1) | (db.answers.question_id==db.correlations.question_id2))
+    myset = db(myquery)
+    myanswers = myset.select(db.answers.ALL,orderby=db.answers.user_id)
+    for answerrow in myanswers:
+      print answerrow
+    return dict(answers=myanswers,form=form)
 
 def showmutualinformation():
-    form = SQLFORM(db.answers)
-    return dict(form=form)
+    answers = db().select(db.answers.ALL)
+    return dict(answers=answers)
 
 @auth.requires_login()
 def managequestions():
